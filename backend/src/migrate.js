@@ -4,8 +4,14 @@ import path from 'path';
 import url from 'url';
 import dotenv from 'dotenv';
 import { initPostgres, getPgPool } from './config/postgres.js';
-
+import { createApp } from './app.js';
 dotenv.config();
+
+// connecting to the database
+const dbConfig = {
+  connectionString: process.env.POSTGRES_URL,
+};
+
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,7 +32,7 @@ async function getExecutedMigrations(pool) {
 }
 
 async function runMigrations() {
-  await initPostgres();
+  await initPostgres(dbConfig);
   const pool = getPgPool();
 
   await ensureMigrationsTable(pool);
