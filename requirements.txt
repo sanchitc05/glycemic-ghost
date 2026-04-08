@@ -1,0 +1,36 @@
+# Consolidated project dependencies
+# Generated on 2026-04-08
+#
+# NOTE: This file consolidates project dependencies from the Node backend
+# and the Flutter frontend for reference. It is NOT a standard Python
+# `pip`-installable requirements file.
+
+# Python packages:
+# - (none detected / required)
+
+# Backend (Node.js) — from backend/package.json
+# dependencies:
+@influxdata/influxdb-client: ^1.35.0
+axios: ^1.7.0
+bcryptjs: ^3.0.3
+dotenv: ^16.4.0
+express: ^4.19.0
+ioredis: ^5.4.0
+jsonwebtoken: ^9.0.3
+morgan: ^1.10.1
+pg: ^8.12.0
+
+# devDependencies:
+nodemon: ^3.1.0
+
+# Frontend (Dart/Flutter) — from frontend/glycemic_frontend/pubspec.yaml
+# dependencies:
+flutter: sdk: flutter
+http: ^1.2.0
+fl_chart: ^1.1.1
+health: ^9.0.0
+cupertino_icons: ^1.0.8
+
+# dev_dependencies:
+flutter_test: sdk: flutter
+flutter_lints: ^6.0.0
