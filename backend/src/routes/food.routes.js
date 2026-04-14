@@ -15,6 +15,18 @@ router.get('/search', requireAuth, async (req, res, next) => {
   }
 });
 
+// ✅ GET /api/food/recommendations?limit=20
+router.get('/recommendations', requireAuth, async (req, res, next) => {
+  try {
+    const { limit } = req.query;
+    const userId = req.user.id;
+    const foods = await foodService.getRecommendedFoods(userId, limit || 20);
+    res.json({ foods });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // ✅ SINGLE POST /api/food/log - Handles BOTH foodId & nutrition
 router.post('/log', requireAuth, async (req, res, next) => {
   try {
