@@ -1,2 +1,61 @@
-backend/node_modules
-frontend/node_modules
+# Dependencies
+backend/node_modules/
+frontend/node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.template
+backend/.env
+backend/.env.*
+!backend/.env.example
+!backend/.env.template
+frontend/glycemic_frontend/.env
+frontend/glycemic_frontend/.env.*
+!frontend/glycemic_frontend/.env.example
+!frontend/glycemic_frontend/.env.template
+
+# Private keys, certificates, and signing files
+*.pem
+*.key
+*.p8
+*.p12
+*.crt
+*.cer
+*.jks
+*.keystore
+*.mobileprovision
+
+# Cloud/provider and API credentials
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase-adminsdk*.json
+**/*service-account*.json
+**/*credentials*.json
+
+# Local data dumps and private backups
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.dump
+
+# Logs and local runtime artifacts
+*.log
+backend/logs/
+backend/tmp/
+backend/.cache/
+
+# Flutter/Dart generated local artifacts (defense in depth)
+frontend/glycemic_frontend/.dart_tool/
+frontend/glycemic_frontend/.flutter-plugins-dependencies
+frontend/glycemic_frontend/.pub/
+frontend/glycemic_frontend/.pub-cache/
+frontend/glycemic_frontend/build/
+frontend/glycemic_frontend/coverage/
+
+# IDE/editor local state
+.idea/
+.vscode/
