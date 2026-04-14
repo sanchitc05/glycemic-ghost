@@ -10,21 +10,82 @@ class FoodApi {
   final String token;
 
   Future<List<FoodItem>> search(String query) async {
-    // Use your local foodDatabase first (fast, offline)
-    await Future.delayed(const Duration(milliseconds: 300)); // Simulate network
+    final trimmed = query.trim();
+    if (trimmed.isEmpty) {
+      return recommendations();
+    }
+
+    try {
+      final uri = Uri.parse('$baseUrl/api/food/search?q=${Uri.encodeComponent(trimmed)}');
+      final res = await http.get(
+        uri,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        final decoded = jsonDecode(res.body) as Map<String, dynamic>;
+        final foods = (decoded['foods'] as List<dynamic>? ?? const [])
+            .map((item) => FoodItem.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        if (kDebugMode) {
+          debugPrint('Server food search "$trimmed" → ${foods.length} results');
+        }
+        return foods;
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        debugPrint('Server food search failed: $error');
+      }
+    }
+
     final matches = foodDatabase
         .where(
           (food) =>
-              food.name.toLowerCase().contains(query.toLowerCase()) ||
-              food.category.toLowerCase().contains(query.toLowerCase()),
+              food.name.toLowerCase().contains(trimmed.toLowerCase()) ||
+              food.category.toLowerCase().contains(trimmed.toLowerCase()),
         )
         .take(20)
         .toList();
 
     if (kDebugMode) {
-      debugPrint('Food search "$query" → ${matches.length} results');
+      debugPrint('Local food search "$trimmed" → ${matches.length} results');
     }
     return matches;
+  }
+
+  Future<List<FoodItem>> recommendations() async {
+    try {
+      final uri = Uri.parse('$baseUrl/api/food/recommendations?limit=20');
+      final res = await http.get(
+        uri,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        final decoded = jsonDecode(res.body) as Map<String, dynamic>;
+        final foods = (decoded['foods'] as List<dynamic>? ?? const [])
+            .map((item) => FoodItem.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        if (foods.isNotEmpty) {
+          if (kDebugMode) {
+            debugPrint('Server recommendations → ${foods.length} items');
+          }
+          return foods;
+        }
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        debugPrint('Server recommendations failed: $error');
+      }
+    }
+
+    return foodDatabase.take(20).toList();
   }
 
   Future<void> logFood(

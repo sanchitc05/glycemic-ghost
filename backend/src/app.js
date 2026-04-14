@@ -2,6 +2,7 @@
 import express from 'express';
 import {} from 'dotenv/config';
 import morgan from 'morgan';
+import cors from 'cors';
 
 import { initPostgres } from './config/postgres.js';
 import { initInflux } from './config/influxdb.js';
@@ -30,6 +31,7 @@ import router from './routes/index.js';
 
   app.use(express.json());
   app.use(morgan('dev'));
+  app.use(cors());
 
   app.use('/api', router);
 
