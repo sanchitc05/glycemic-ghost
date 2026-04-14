@@ -97,6 +97,12 @@ Windows (PowerShell):
 Copy-Item backend/.env.example backend/.env
 ~~~
 
+If your terminal is already in backend/:
+
+~~~powershell
+Copy-Item .env.example .env
+~~~
+
 macOS/Linux:
 
 ~~~bash
@@ -156,6 +162,12 @@ This starts:
 
 ~~~powershell
 Copy-Item backend/.env.example backend/.env
+~~~
+
+If you are already inside backend/, run:
+
+~~~powershell
+Copy-Item .env.example .env
 ~~~
 
 Update backend/.env values before starting the API.
